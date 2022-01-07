@@ -8,11 +8,23 @@ publish_mode: editorial_workflow
 # Define where public images will be stored
 media_folder: "public/images/uploads"
 
+extension: json
+
 # CMS Content
 collections:
-  - name: "home-page"
-    label: "Home Page"
-    folder: "content/home-page"
-    create: true
-    fields:
-      - {label: "Tab Title", name: "tab-title", widget: "string"}
+  # Content for Web Pages
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "Home Page"
+        name: "home-page"
+        file: "content/home-page.json"
+        fields:
+          - {label: "Tab Title", name: tab-title, widget: string}
+          - {label: "Title", name: title, widget: string}
+      - label: "Events Page"
+        name: "events-page"
+        file: "content/events-page.json"
+        fields:
+          - {label: "Tab Title", name: tab-title, widget: string}
+          - {label: "Title", name: title, widget: string} 
