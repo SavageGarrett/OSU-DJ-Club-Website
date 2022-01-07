@@ -4,3 +4,15 @@ backend:
 
 # This line should *not* be indented
 publish_mode: editorial_workflow
+
+# Define where public images will be stored
+media_folder: "public/images/uploads"
+
+# CMS Content
+collections:
+  - name: "home-page"
+    label: "Home Page"
+    folder: "content/home-page"
+    create: true
+    fields:
+      - {label: "Tab Title", name: "tab-title", widget: "string"}
