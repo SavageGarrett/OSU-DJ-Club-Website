@@ -44,4 +44,10 @@ collections:
         file: "content/events-page.json"
         fields:
           - {label: "Tab Title", name: tab-title, widget: string}
-          - {label: "Title", name: title, widget: string} 
+          - {label: "Title", name: title, widget: string}
+  # Content for Gallery
+  - name: gallery
+    label: "Gallery Images"
+    folder: "content/gallery"
+    fields:
+      - {label: "Alternative Text", name: alt-text, widget: string}

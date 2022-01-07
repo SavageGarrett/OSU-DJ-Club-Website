@@ -10,7 +10,6 @@ gen_home('Home.html')
 gen_home('index.html')
 
 
-
 /* Generate Home or Index Page */
 function gen_home(html_file)
 {

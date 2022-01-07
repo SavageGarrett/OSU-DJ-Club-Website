@@ -1,3 +1,7 @@
+ .u-section-1 {
+  background-image: none;
+}
+
 .u-section-1 .u-sheet-1 {
   min-height: 1140px;
 }
@@ -13,14 +17,13 @@
 
 .u-section-1 .u-gallery-1 {
   height: 552px;
-  margin-top: 30px;
+  margin-top: 89px;
   margin-bottom: 60px;
   grid-gap: 17px 17px;
 }
 
 .u-section-1 .u-gallery-inner-1 {
   grid-template-columns: auto auto auto;
-  grid-gap: 17px 17px;
 }
 
 .u-section-1 .u-gallery-item-1 {
@@ -28,8 +31,7 @@
 }
 
 .u-section-1 .u-over-slide-1 {
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
-  padding: 20px;
+  padding: 10px;
 }
 
 .u-section-1 .u-gallery-item-2 {
@@ -37,8 +39,7 @@
 }
 
 .u-section-1 .u-over-slide-2 {
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
-  padding: 20px;
+  padding: 10px;
 }
 
 .u-section-1 .u-gallery-item-3 {
@@ -46,8 +47,7 @@
 }
 
 .u-section-1 .u-over-slide-3 {
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
-  padding: 20px;
+  padding: 10px;
 }
 
 .u-section-1 .u-gallery-item-4 {
@@ -55,8 +55,7 @@
 }
 
 .u-section-1 .u-over-slide-4 {
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
-  padding: 20px;
+  padding: 10px;
 }
 
 .u-section-1 .u-gallery-item-5 {
@@ -64,8 +63,7 @@
 }
 
 .u-section-1 .u-over-slide-5 {
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
-  padding: 20px;
+  padding: 10px;
 }
 
 .u-section-1 .u-gallery-item-6 {
@@ -73,8 +71,21 @@
 }
 
 .u-section-1 .u-over-slide-6 {
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2));
-  padding: 20px;
+  padding: 10px;
+}
+
+.u-section-1 .u-gallery-nav-1 {
+  position: absolute;
+  left: 10px;
+  width: 40px;
+  height: 40px;
+}
+
+.u-section-1 .u-gallery-nav-2 {
+  position: absolute;
+  right: 10px;
+  width: 40px;
+  height: 40px;
 }
 
 @media (max-width: 1199px) {
@@ -88,6 +99,30 @@
 
   .u-section-1 .u-gallery-inner-1 {
     grid-gap: 17px;
+  }
+
+  .u-section-1 .u-over-slide-1 {
+    min-height: 100px;
+  }
+
+  .u-section-1 .u-over-slide-2 {
+    min-height: 100px;
+  }
+
+  .u-section-1 .u-over-slide-3 {
+    min-height: 100px;
+  }
+
+  .u-section-1 .u-over-slide-4 {
+    min-height: 100px;
+  }
+
+  .u-section-1 .u-over-slide-5 {
+    min-height: 100px;
+  }
+
+  .u-section-1 .u-over-slide-6 {
+    min-height: 100px;
   }
 }
 
