@@ -22,6 +22,12 @@ collections:
         fields:
           - {label: "Tab Title", name: tab-title, widget: string}
           - {label: "Title", name: title, widget: string}
+          - {label: "Subtitle", name: subtitle, widget: string}
+          - {label: "President Name", name: pres-name, widget: string}
+          - {label: "President's E-Mail", name: pres-email, widget: string}
+          - {label: "VP Name", name: vp-name, widget: string}
+          - {label: "VP's E-Mail", name: vp-email, widget: string}
+          - {label: "About DJ Club", name: about, widget: markdown}
       - label: "Events Page"
         name: "events-page"
         file: "content/events-page.json"
