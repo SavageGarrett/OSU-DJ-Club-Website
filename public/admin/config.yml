@@ -28,6 +28,17 @@ collections:
           - {label: "VP Name", name: vp-name, widget: string}
           - {label: "VP's E-Mail", name: vp-email, widget: string}
           - {label: "About DJ Club", name: about, widget: markdown}
+          - {label: "Featured Photo Left", name: left-image, widget: image}
+          - {label: "Featured Photo Middle", name: middle-image, widget: image}
+          - {label: "Featured Photo Right", name: right-image, widget: image}
+          - {label: "Learn to DJ Section Long Text", name: learn-to-dj, widget: markdown}
+          - {label: "Members Section Long Text", name: members-section-text, widget: markdown}
+          - {label: "Social Name 1", name: social-1, widget: string}
+          - {label: "Social Link 1", name: social-link-1, widget: string}
+          - {label: "Social Name 2", name: social-2, widget: string}
+          - {label: "Social Link 2", name: social-link-2, widget: string}
+          - {label: "Social Name 3", name: social-3, widget: string}
+          - {label: "Social Link 3", name: social-link-3, widget: string}
       - label: "Events Page"
         name: "events-page"
         file: "content/events-page.json"
