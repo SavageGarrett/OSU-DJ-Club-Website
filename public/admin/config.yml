@@ -53,6 +53,7 @@ collections:
     label: "Learning Resources"
     folder: "content/learning"
     create: true
+    extension: json
     fields:
       - {label: "Alternative Text for Image (Displays if Image Doesn't Load)", name: alt-text, widget: string}
       - {label: "Display Image", name: display-image, widget: image}
