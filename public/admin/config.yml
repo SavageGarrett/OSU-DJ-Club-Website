@@ -47,7 +47,7 @@ collections:
     create: true
     fields:
       - {label: "Alternative Text for Image (Displays if Image Doesn't Load)", name: alt-text, widget: string}
-      - {label: "Display Image", name: display-image, widget: string}
+      - {label: "Display Image", name: display-image, widget: image}
   # Content for Learn Page
   - name: learning-resource
     label: "Learning Resources"
@@ -55,7 +55,7 @@ collections:
     create: true
     fields:
       - {label: "Alternative Text for Image (Displays if Image Doesn't Load)", name: alt-text, widget: string}
-      - {label: "Display Image", name: display-image, widget: string}
+      - {label: "Display Image", name: display-image, widget: image}
       - {label: "Title", name: title, widget: string}
       - {label: "Description", name: description, widget: markdown}
       - {label: "Link Text", name: link-text, widget: string}
