@@ -6,8 +6,8 @@ let converter = new showdown.Converter();
 /* Load Config Files */
 const home_page_data = require('./content/home-page.json');
 
-gen_home('Home.html');
-gen_home('index.html');
+/* gen_home('Home.html');
+gen_home('index.html'); */
 /* gen_learn(); */
 
 /* Generate Learn-to-DJ page */
