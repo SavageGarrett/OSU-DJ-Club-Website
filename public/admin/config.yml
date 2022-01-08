@@ -44,6 +44,7 @@ collections:
   - name: gallery
     label: "Gallery Images"
     folder: "content/gallery"
+    create: true
     fields:
       - {label: "Alternative Text for Image (Displays if Image Doesn't Load)", name: alt-text, widget: string}
       - {label: "Display Image", name: display-image, widget: string}
@@ -51,6 +52,7 @@ collections:
   - name: learning-resource
     label: "Learning Resources"
     folder: "content/learning"
+    create: true
     fields:
       - {label: "Alternative Text for Image (Displays if Image Doesn't Load)", name: alt-text, widget: string}
       - {label: "Display Image", name: display-image, widget: string}

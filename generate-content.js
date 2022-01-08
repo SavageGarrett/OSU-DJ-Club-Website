@@ -8,7 +8,7 @@ const home_page_data = require('./content/home-page.json');
 
 gen_home('Home.html');
 gen_home('index.html');
-gen_learn();
+/* gen_learn(); */
 
 /* Generate Learn-to-DJ page */
 function gen_learn()
@@ -101,7 +101,6 @@ function gen_home(html_file)
 
 
         /* Write out Modified HTML */
-        console.log(html_file)
         fs.writeFile(`public/${html_file}`, $.html(), function(err) {
             /* Throw Error to Avoid Malformed Content */
             if (err) throw err;
