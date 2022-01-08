@@ -1,14 +1,39 @@
 const cheerio = require('cheerio');
 const fs = require('fs');
 const showdown = require('showdown');
-let converter = new showdown.Converter()
+let converter = new showdown.Converter();
 
 /* Load Config Files */
 const home_page_data = require('./content/home-page.json');
 
-gen_home('Home.html')
-gen_home('index.html')
+/* gen_home('Home.html');
+gen_home('index.html'); */
+gen_learn();
 
+/* Generate Learn-to-DJ page */
+function gen_learn()
+{
+    fs.readFile('public/Learn-to-DJ.html', 'utf-8', function (err, data) {
+        /* Throw Error to Avoid Malformed Content */
+        if (err) throw err;
+
+        /* Load HTML data */
+        let $ = cheerio.load(data);
+
+        /* Write out Modified HTML */
+        fs.writeFile(`public/${html_file}`, $.html(), function(err) {
+            /* Throw Error to Avoid Malformed Content */
+            if (err) throw err;
+
+            /* Constant Selectors */
+            const CONTAINER = 'div.u-expanded-width';
+            
+            
+            /* Log Success Message */
+            console.log(`Data replaced for ${html_file}`);
+        });
+    });
+}
 
 /* Generate Home or Index Page */
 function gen_home(html_file)
@@ -33,20 +58,6 @@ function gen_home(html_file)
 
         /* Modify Subtitle */
         $('h5.u-text:nth-child(2)').html(home_page_data.subtitle);
-
-        /* Modify President's Name */
-        $('h4.u-text:nth-child(3)').html(home_page_data['pres-name']);
-
-        /* Modify President's E-Mail */
-        $('a.u-active-none:nth-child(4)').html(home_page_data['pres-email']);
-        $('a.u-active-none:nth-child(4)').attr("href", `mailto:${home_page_data['pres-email']}`);
-
-        /* Modify VP's Name */
-        $('h4.u-custom-font').html(home_page_data['vp-name']);
-
-        /* Modify VP's E-Mail */
-        $('a.u-active-none:nth-child(6)').html(home_page_data['vp-email']);
-        $('a.u-active-none:nth-child(6)').attr("href", `mailto:${home_page_data['vp-email']}`);
 
         /* Modify About Section */
         let about_html_text = converter.makeHtml(home_page_data.about); // Create HTML from Markdown

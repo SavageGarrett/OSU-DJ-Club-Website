@@ -21,12 +21,7 @@ collections:
         file: "content/home-page.json"
         fields:
           - {label: "Tab Title", name: tab-title, widget: string}
-          - {label: "Title", name: title, widget: string}
           - {label: "Subtitle", name: subtitle, widget: string}
-          - {label: "President Name", name: pres-name, widget: string}
-          - {label: "President's E-Mail", name: pres-email, widget: string}
-          - {label: "VP Name", name: vp-name, widget: string}
-          - {label: "VP's E-Mail", name: vp-email, widget: string}
           - {label: "About DJ Club", name: about, widget: markdown}
           - {label: "Featured Photo Left", name: left-image, widget: image}
           - {label: "Featured Photo Middle", name: middle-image, widget: image}
@@ -50,4 +45,16 @@ collections:
     label: "Gallery Images"
     folder: "content/gallery"
     fields:
-      - {label: "Alternative Text", name: alt-text, widget: string}
+      - {label: "Alternative Text for Image (Displays if Image Doesn't Load)", name: alt-text, widget: string}
+      - {label: "Display Image", name: display-image, widget: string}
+  # Content for Learn Page
+  - name: learning-resource
+    label: "Learning Resources"
+    folder: "content/learning"
+    fields:
+      - {label: "Alternative Text for Image (Displays if Image Doesn't Load)", name: alt-text, widget: string}
+      - {label: "Display Image", name: display-image, widget: string}
+      - {label: "Title", name: title, widget: string}
+      - {label: "Description", name: description, widget: markdown}
+      - {label: "Link Text", name: link-text, widget: string}
+      - {label: "Link", name: link, widget: string}

@@ -240,7 +240,12 @@
 
 .u-section-2 .u-custom-html-1 {
   margin-bottom: 53px;
-  height: auto;
   min-height: 2126px;
   margin-top: 53px;
+}
+
+@media (max-width: 1199px) {
+  .u-section-2 .u-custom-html-1 {
+    height: auto;
+  }
 }
