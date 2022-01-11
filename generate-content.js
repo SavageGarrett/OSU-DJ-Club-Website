@@ -1,14 +1,18 @@
+/* Import / Setup Dependencies */
 const cheerio = require('cheerio');
+const { text } = require('cheerio/lib/api/manipulation');
 const fs = require('fs');
 const showdown = require('showdown');
 let converter = new showdown.Converter();
+const parseCollection = require('./collection2array.js')
 
 /* Load Config Files */
 const home_page_data = require('./content/home-page.json');
 
+
 /* gen_home('Home.html');
 gen_home('index.html'); */
-/* gen_learn(); */
+gen_learn();
 
 /* Generate Learn-to-DJ page */
 function gen_learn()
@@ -20,19 +24,64 @@ function gen_learn()
         /* Load HTML data */
         let $ = cheerio.load(data);
 
+        /* Constant Selectors */
+        const ENTRY_CONTAINER = 'div.u-expanded-width';
+
+        /* Update Page Content */
+
+        /* Update Repeated Content */
+
+        /* Fetch Learning Entry Data */
+        const learning_data = parseCollection('./content/learning');
+
+        /* Loop over Learning Entries */
+
+        let i = 0;
+        let insertion_html = '';
+        for (let entry of learning_data)
+        {
+            /* Insert Repeater Element (3 elements / row) */
+            if (i % 3 == 0) insertion_html += `<div class="u-repeater u-repeater-1">`
+
+            /* Insert Entry Element */
+            insertion_html += gen_learn_entry(entry["alt-text"], entry["display-image"],
+                                            entry.title, entry.description,
+                                            entry["link-text"], entry.link);
+
+            /* Close Div if End of Line or Last Element */
+            if (i % 3 == 2 || i == learning_data.length) insertion_html += `</div>`
+            i++
+        }
+
+        /* Insert Html into container */
+        $(ENTRY_CONTAINER).html(insertion_html)
+
+
+
         /* Write out Modified HTML */
-        fs.writeFile(`public/${html_file}`, $.html(), function(err) {
+        fs.writeFile('public/Learn-to-DJ1.html', $.html(), function(err) {
             /* Throw Error to Avoid Malformed Content */
             if (err) throw err;
-
-            /* Constant Selectors */
-            const CONTAINER = 'div.u-expanded-width';
-
             
             /* Log Success Message */
-            console.log(`Data replaced for ${html_file}`);
+            console.log(`Data replaced for Learn-to-DJ.html`);
         });
     });
+}
+
+function gen_learn_entry(alt_text, display_image, title, description_md, link_text, link)
+{
+    let description_html = converter.makeHtml(description_md);
+    return `
+    <div class="u-container-style u-list-item u-repeater-item">
+    <div class="u-container-layout u-similar-container u-container-layout-3">
+        <img alt="${alt_text}" class="u-expanded-width u-image u-image-default lazyload u-image-3" data-image-width="650" data-image-height="365" data-src="${display_image.replace('/public/','')}">
+        <h3 class="u-text u-text-default u-text-palette-2-base u-text-7">${title}</h3>
+        <p class="u-text u-text-8">${description_html}</p>
+        <a href="${link}" class="u-active-none u-border-2 u-border-hover-palette-2-base u-border-palette-2-light-1 u-btn u-button-style u-hover-none u-none u-text-white u-btn-3">${link_text}</a>
+    </div>
+    </div>
+    ` 
 }
 
 /* Generate Home or Index Page */

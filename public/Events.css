@@ -234,18 +234,4 @@
   .u-section-1 .u-text-9 {
     font-size: 1.5rem;
   }
-}.u-section-2 .u-sheet-1 {
-  min-height: 2231px;
-}
-
-.u-section-2 .u-custom-html-1 {
-  margin-bottom: 53px;
-  min-height: 2126px;
-  margin-top: 53px;
-}
-
-@media (max-width: 1199px) {
-  .u-section-2 .u-custom-html-1 {
-    height: auto;
-  }
 }

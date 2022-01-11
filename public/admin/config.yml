@@ -45,6 +45,7 @@ collections:
     label: "Gallery Images"
     folder: "content/gallery"
     create: true
+    extension: json
     fields:
       - {label: "Alternative Text for Image (Displays if Image Doesn't Load)", name: alt-text, widget: string}
       - {label: "Display Image", name: display-image, widget: image}
@@ -55,6 +56,7 @@ collections:
     create: true
     extension: json
     fields:
+      - {label: "Priority (Lower Number Displays first)", name: priority, widget: number, value_type: int}
       - {label: "Alternative Text for Image (Displays if Image Doesn't Load)", name: alt-text, widget: string}
       - {label: "Display Image", name: display-image, widget: image}
       - {label: "Title", name: title, widget: string}

@@ -1,10 +1,10 @@
 .u-section-1 .u-sheet-1 {
-  min-height: 976px;
+  min-height: 100vh;
 }
 
 .u-section-1 .u-layout-wrap-1 {
-  margin-top: 60px;
-  margin-bottom: 60px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .u-section-1 .u-layout-cell-1 {
@@ -127,8 +127,8 @@
 
 .u-section-2 .u-group-1 {
   width: 644px;
-  min-height: 509px;
-  margin: -285px 53px 0 auto;
+  min-height: 522px;
+  margin: -286px 53px 0 auto;
 }
 
 .u-section-2 .u-container-layout-1 {
@@ -143,7 +143,6 @@
 
 .u-section-2 .u-text-2 {
   font-weight: 400;
-  font-size: 1.125rem;
   margin: 20px 0 0;
 }
 
@@ -152,14 +151,29 @@
   font-size: 1.125rem;
   letter-spacing: 4px;
   border-style: solid;
-  margin: 20px auto 0;
+  margin: 21px auto 0;
+  padding: 14px 38px 15px;
+}
+
+.u-section-2 .u-text-3 {
+  font-weight: 400;
+  font-size: 1.125rem;
+  margin: 12px 0 0;
+}
+
+.u-section-2 .u-btn-2 {
+  text-transform: uppercase;
+  font-size: 1.125rem;
+  letter-spacing: 4px;
+  border-style: solid;
+  margin: 17px auto 0;
   padding: 14px 38px 15px;
 }
 
 .u-section-2 .u-shape-3 {
   width: 166px;
   height: 166px;
-  margin: -544px auto 60px 16px;
+  margin: -555px auto 389px 16px;
 }
 
 @media (max-width: 1199px) {
@@ -194,6 +208,32 @@
     padding-right: 30px;
   }
 
+  .u-section-2 .u-text-1 {
+    margin-right: 42px;
+    margin-left: -42px;
+  }
+
+  .u-section-2 .u-text-2 {
+    margin-top: 205px;
+    margin-right: 42px;
+    margin-left: -42px;
+  }
+
+  .u-section-2 .u-btn-1 {
+    margin-left: 5px;
+  }
+
+  .u-section-2 .u-text-3 {
+    margin-top: -209px;
+    margin-right: 42px;
+    margin-left: -42px;
+  }
+
+  .u-section-2 .u-btn-2 {
+    margin-left: -42px;
+    margin-right: -42px;
+  }
+
   .u-section-2 .u-shape-3 {
     width: 103px;
     height: 103px;
@@ -225,6 +265,32 @@
   .u-section-2 .u-group-1 {
     width: 429px;
     margin-top: -55px;
+  }
+
+  .u-section-2 .u-text-1 {
+    margin-right: 6px;
+    margin-left: -6px;
+  }
+
+  .u-section-2 .u-text-2 {
+    margin-top: 173px;
+    margin-right: 6px;
+    margin-left: -6px;
+  }
+
+  .u-section-2 .u-btn-1 {
+    margin-left: 77px;
+  }
+
+  .u-section-2 .u-text-3 {
+    margin-top: -177px;
+    margin-right: 6px;
+    margin-left: -6px;
+  }
+
+  .u-section-2 .u-btn-2 {
+    margin-left: -6px;
+    margin-right: -6px;
   }
 
   .u-section-2 .u-shape-3 {
@@ -266,6 +332,33 @@
     padding-right: 20px;
   }
 
+  .u-section-2 .u-text-1 {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .u-section-2 .u-text-2 {
+    margin-top: 19px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .u-section-2 .u-btn-1 {
+    margin-left: auto;
+  }
+
+  .u-section-2 .u-text-3 {
+    margin-top: -23px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .u-section-2 .u-btn-2 {
+    margin-top: -137px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
   .u-section-2 .u-shape-3 {
     width: 82px;
     height: 82px;
@@ -302,13 +395,36 @@
 
   .u-section-2 .u-group-1 {
     width: 294px;
-    min-height: 785px;
     margin-top: -25px;
     margin-right: auto;
   }
 
   .u-section-2 .u-text-1 {
     font-size: 3rem;
+    margin-right: 64px;
+    margin-left: -64px;
+  }
+
+  .u-section-2 .u-text-2 {
+    margin-top: 237px;
+    margin-right: 64px;
+    margin-left: -64px;
+  }
+
+  .u-section-2 .u-btn-1 {
+    margin-left: -38px;
+  }
+
+  .u-section-2 .u-text-3 {
+    margin-top: -273px;
+    margin-right: 64px;
+    margin-left: -64px;
+  }
+
+  .u-section-2 .u-btn-2 {
+    margin-top: 17px;
+    margin-left: -64px;
+    margin-right: -64px;
   }
 
   .u-section-2 .u-shape-3 {
@@ -1147,7 +1263,7 @@
 }
 
 .u-section-8 .u-sheet-1 {
-  min-height: 423px;
+  min-height: 422px;
 }
 
 .u-section-8 .u-text-1 {
@@ -1178,13 +1294,19 @@
   padding: 0;
 }
 
+.u-section-8 .u-group-1 {
+  width: 568px;
+  min-height: 61px;
+  margin: 36px auto 60px;
+}
+
 .u-section-8 .u-btn-4 {
   text-transform: uppercase;
   font-size: 1.125rem;
   letter-spacing: 4px;
   border-style: solid;
   align-self: center;
-  margin: 44px auto 0 297px;
+  margin: 0 auto 0 0;
   padding: 14px 38px 15px;
 }
 
@@ -1193,7 +1315,7 @@
   font-size: 1.125rem;
   letter-spacing: 4px;
   border-style: solid;
-  margin: -61px auto 60px 640px;
+  margin: -61px 0 0 auto;
   padding: 14px 38px 15px;
 }
 
@@ -1227,6 +1349,10 @@
     width: 540px;
   }
 
+  .u-section-8 .u-group-1 {
+    width: 540px;
+  }
+
   .u-section-8 .u-btn-4 {
     margin-left: auto;
   }
@@ -1243,6 +1369,10 @@
   }
 
   .u-section-8 .u-text-2 {
+    width: 340px;
+  }
+
+  .u-section-8 .u-group-1 {
     width: 340px;
   }
 
