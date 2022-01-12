@@ -56,20 +56,23 @@ function gen_tags() {
             /* Fetch Head HTML */
             let head_html = $(HEAD).html();
 
-            /* Add Gtags to Head HTML */
-            head_html += gtags;
+            /* Check that Google Tags is Already Included */
+            if (!head_html.includes('<!-- Global site tag (gtag.js) - Google Analytics -->')) {
+                /* Add Gtags to Head HTML */
+                head_html += gtags;
 
-            /* Replace head with updated gtag included */
-            $(HEAD).html(head_html);
+                /* Replace head with updated gtag included */
+                $(HEAD).html(head_html);
 
-            /* Write out Modified HTML */
-            fs.writeFile(`public/${file}`, $.html(), function (err) {
-                /* Throw Error to Avoid Malformed Content */
-                if (err) throw err;
+                /* Write out Modified HTML */
+                fs.writeFile(`public/${file}`, $.html(), function (err) {
+                    /* Throw Error to Avoid Malformed Content */
+                    if (err) throw err;
 
-                /* Log Success Message */
-                console.log(`Data replaced for ${file}`);
-            });
+                    /* Log Success Message */
+                    console.log(`Data replaced for ${file}`);
+                });
+            }
         });
     }
 }
