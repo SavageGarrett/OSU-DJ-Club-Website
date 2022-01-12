@@ -70,8 +70,12 @@ function gen_tags() {
                     if (err) throw err;
 
                     /* Log Success Message */
-                    console.log(`Data replaced for ${file}`);
+                    console.log(`GTags Added for ${file}`);
                 });
+            }
+            else
+            {
+                console.log(`GTags Already Exist for ${file}`);
             }
         });
     }
