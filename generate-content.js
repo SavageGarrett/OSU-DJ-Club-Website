@@ -1,6 +1,8 @@
 /* Import / Setup Dependencies */
 const cheerio = require('cheerio');
-const { text } = require('cheerio/lib/api/manipulation');
+const {
+    text
+} = require('cheerio/lib/api/manipulation');
 const fs = require('fs');
 const showdown = require('showdown');
 let converter = new showdown.Converter();
@@ -12,11 +14,68 @@ const home_page_data = require('./content/home-page.json');
 
 /* gen_home('Home.html');
 gen_home('index.html'); */
-gen_learn();
+gen_tags();
+/* gen_learn(); */
+
+/**
+ * Add google tags script to all .html files in public directory
+ */
+function gen_tags() {
+    let gtags = `
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LNT0B8EBGF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-LNT0B8EBGF');
+    </script>
+    `
+
+    /* Gather Public Files */
+    let public_files = fs.readdirSync('./public/');
+
+    /* Filter out Non-HTML Documents */
+    public_files = public_files.filter(function (word) {
+        return word.includes('.html')
+    });
+
+    /* Loop over all HTML Files */
+    for (let file of public_files) {
+        fs.readFile(`public/${file}`, 'utf-8', function (err, data) {
+            /* Throw Error to Avoid Malformed Content */
+            if (err) throw err;
+
+            /* Load HTML Data */
+            let $ = cheerio.load(data);
+
+            /* Declare Head Tag */
+            const HEAD = 'head';
+
+            /* Fetch Head HTML */
+            let head_html = $(HEAD).html();
+
+            /* Add Gtags to Head HTML */
+            head_html += gtags;
+
+            /* Replace head with updated gtag included */
+            $(HEAD).html(head_html);
+
+            /* Write out Modified HTML */
+            fs.writeFile(`public/${file}`, $.html(), function (err) {
+                /* Throw Error to Avoid Malformed Content */
+                if (err) throw err;
+
+                /* Log Success Message */
+                console.log(`Data replaced for ${file}`);
+            });
+        });
+    }
+}
 
 /* Generate Learn-to-DJ page */
-function gen_learn()
-{
+function gen_learn() {
     fs.readFile('public/Learn-to-DJ.html', 'utf-8', function (err, data) {
         /* Throw Error to Avoid Malformed Content */
         if (err) throw err;
@@ -38,15 +97,14 @@ function gen_learn()
 
         let i = 0;
         let insertion_html = '';
-        for (let entry of learning_data)
-        {
+        for (let entry of learning_data) {
             /* Insert Repeater Element (3 elements / row) */
             if (i % 3 == 0) insertion_html += `<div class="u-repeater u-repeater-1">`
 
             /* Insert Entry Element */
             insertion_html += gen_learn_entry(entry["alt-text"], entry["display-image"],
-                                            entry.title, entry.description,
-                                            entry["link-text"], entry.link);
+                entry.title, entry.description,
+                entry["link-text"], entry.link);
 
             /* Close Div if End of Line or Last Element */
             if (i % 3 == 2 || i == learning_data.length) insertion_html += `</div>`
@@ -59,18 +117,17 @@ function gen_learn()
 
 
         /* Write out Modified HTML */
-        fs.writeFile('public/Learn-to-DJ1.html', $.html(), function(err) {
+        fs.writeFile('public/Learn-to-DJ1.html', $.html(), function (err) {
             /* Throw Error to Avoid Malformed Content */
             if (err) throw err;
-            
+
             /* Log Success Message */
             console.log(`Data replaced for Learn-to-DJ.html`);
         });
     });
 }
 
-function gen_learn_entry(alt_text, display_image, title, description_md, link_text, link)
-{
+function gen_learn_entry(alt_text, display_image, title, description_md, link_text, link) {
     let description_html = converter.makeHtml(description_md);
     return `
     <div class="u-container-style u-list-item u-repeater-item">
@@ -81,14 +138,13 @@ function gen_learn_entry(alt_text, display_image, title, description_md, link_te
         <a href="${link}" class="u-active-none u-border-2 u-border-hover-palette-2-base u-border-palette-2-light-1 u-btn u-button-style u-hover-none u-none u-text-white u-btn-3">${link_text}</a>
     </div>
     </div>
-    ` 
+    `
 }
 
 /* Generate Home or Index Page */
-function gen_home(html_file)
-{
+function gen_home(html_file) {
     /* Generate Content for Home Page */
-    fs.readFile(`public/${html_file}`, 'utf8', function(err, data) {
+    fs.readFile(`public/${html_file}`, 'utf8', function (err, data) {
         /* Throw Error to Avoid Malformed Content */
         if (err) throw err;
 
@@ -150,10 +206,10 @@ function gen_home(html_file)
 
 
         /* Write out Modified HTML */
-        fs.writeFile(`public/${html_file}`, $.html(), function(err) {
+        fs.writeFile(`public/${html_file}`, $.html(), function (err) {
             /* Throw Error to Avoid Malformed Content */
             if (err) throw err;
-            
+
             /* Log Success Message */
             console.log(`Data replaced for ${html_file}`);
         });
