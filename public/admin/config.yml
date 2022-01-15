@@ -22,12 +22,15 @@ collections:
         fields:
           - {label: "Tab Title", name: tab-title, widget: string}
           - {label: "Subtitle", name: subtitle, widget: string}
-          - {label: "About DJ Club", name: about, widget: markdown}
+          - {label: "For the Community", name: for-the-community, widget: markdown}
+          - {label: "For DJs", name: for-djs, widget: markdown}
           - {label: "Featured Photo Left", name: left-image, widget: image}
           - {label: "Featured Photo Middle", name: middle-image, widget: image}
           - {label: "Featured Photo Right", name: right-image, widget: image}
           - {label: "Learn to DJ Section Long Text", name: learn-to-dj, widget: markdown}
           - {label: "Members Section Long Text", name: members-section-text, widget: markdown}
+          - {label: "Member Resource Button", name: members-section-button, widget: string}
+          - {label: "From Our DJs", name: from-our-djs, widget: markdown}
           - {label: "Social Name 1", name: social-1, widget: string}
           - {label: "Social Link 1", name: social-link-1, widget: string}
           - {label: "Social Name 2", name: social-2, widget: string}
@@ -40,6 +43,35 @@ collections:
         fields:
           - {label: "Tab Title", name: tab-title, widget: string}
           - {label: "Title", name: title, widget: string}
+      - label: "Learn to Mix"
+        name: "learn-page"
+        file: "content/learn-page.json"
+        fields:
+          - {label: "Tab Title", name: tab-title, widget: string}
+          - {label: "Title", name: title, widget: string}
+          - {label: "Description", name: description, widget: markdown}
+      - label: "Schedule an Event"
+        name: "schedule-event-page"
+        file: "content/schedule-event-page.json"
+        fields:
+          - {label: "Tab Title", name: tab-title, widget: string}
+          - {label: "Title", name: title, widget: string}
+          - {label: "Description", name: description, widget: markdown}
+      - label: "Join DJ Club"
+        name: "join-dj-club"
+        file: "content/join-dj-club.json"
+        fields:
+          - {label: "Tab Title", name: tab-title, widget: string}
+          - {label: "Title", name: title, widget: string}
+          - {label: "Description", name: description, widget: markdown}
+          - {label: "GroupMe Link", name: groupme-link, widget: string}
+      - label: "Photo Gallery"
+        name: "photo-gallery"
+        file: "content/photo-gallery.json"
+        fields:
+          - {label: "Tab Title", name: tab-title, widget: string}
+          - {label: "Title", name: title, widget: string}
+          - {label: "Description", name: description, widget: markdown}
   # Content for Gallery
   - name: gallery
     label: "Gallery Images"
@@ -63,3 +95,12 @@ collections:
       - {label: "Description", name: description, widget: markdown}
       - {label: "Link Text", name: link-text, widget: string}
       - {label: "Link", name: link, widget: string}
+  - name: gallery-photos
+    label: "Gallery Photos"
+    folder: "content/gallery"
+    create: true
+    extension: json
+    fields:
+      - {label: "Priority (Lower Number Displays first)", name: priority, widget: number, value_type: int}
+      - {label: "Alternative Text for Image (Displays if Image Doesn't Load)", name: alt-text, widget: string}
+      - {label: "Display Image", name: display-image, widget: image}
