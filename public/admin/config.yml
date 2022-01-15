@@ -38,12 +38,6 @@ collections:
           - {label: "Social Link 2", name: social-link-2, widget: string}
           - {label: "Social Name 3", name: social-3, widget: string}
           - {label: "Social Link 3", name: social-link-3, widget: string}
-      - label: "Events Page"
-        name: "events-page"
-        file: "content/events-page.json"
-        fields:
-          - {label: "Tab Title", name: tab-title, widget: string}
-          - {label: "Title", name: title, widget: string}
       - label: "Learn to Mix"
         name: "learn-page"
         file: "content/learn-page.json"
