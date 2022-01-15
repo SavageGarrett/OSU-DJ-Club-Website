@@ -14,6 +14,7 @@ const learn_data = require('./content/learn-page.json');
 const schedule_event_data = require('./content/schedule-event-page.json');
 const join_club_data = require('./content/join-dj-club.json');
 const gallery_data = require('./content/photo-gallery.json');
+const event_page_data = require('./content/events-page.json');
 
 
 /* Call Page Modifiers */
@@ -24,6 +25,7 @@ gen_learn();
 gen_schedule_an_event();
 gen_join_dj_club();
 gen_photos();
+gen_events_page();
 
 /**
  * Add google tags script to all .html files in public directory
@@ -332,7 +334,31 @@ function gen_photos()
         /* 
             Update Repeated Content
         */
+        
+        /* Fetch Learning Entry Data */
+        const photos_repeated_data = parseCollection('./content/gallery');
+
+        /* Loop over Learning Entries */
+
+        let i = 0;
+        let insertion_html = '';
+        for (let entry of photos_repeated_data) {
+            /* Insert Repeater Element (3 elements / row) */
+            if (i % 3 == 0 && i > 0) insertion_html += `<div class="u-gallery-inner u-gallery-inner-1" role="listbox" style="padding-top: 20px !important;">`
+            else if (i % 3 == 0) insertion_html += `<div class="u-gallery-inner u-gallery-inner-1" role="listbox">`
+
+            /* Insert Entry Element */
+            insertion_html += gen_single_photo(entry["alt-text"], entry["display-image"].replace('/public', '.'), i);
+
+            /* Close Div if End of Line or Last Element */
+            if (i % 3 == 2 || i == photos_repeated_data.length) insertion_html += `</div>`
+            i++
+        }
+
+        /* Insert Html into container */
+        $(PHOTO_CONTAINER).html(insertion_html)
        
+        
 
         /* 
             Write Out Content
@@ -344,6 +370,77 @@ function gen_photos()
             /* Log Success Message */
             console.log(`Data replaced for Photos.html`);
         });
+    })
+}
+
+function gen_single_photo(alt_text, display_image, id)
+{
+    return `
+        <div class="u-gallery-item u-gallery-item-${id}">
+            <div class="u-back-slide">
+            <img class="u-back-image u-expanded lazyload" alt="${alt_text}" data-src="${display_image}">
+            </div>
+            <div class="u-align-center u-over-slide u-valign-bottom u-over-slide-${id}">
+            <h3 class="u-gallery-heading"></h3>
+            <p class="u-gallery-text"></p>
+            </div>
+        </div>
+    `
+}
+
+function gen_events_page()
+{
+    fs.readFile('public/Events.html', 'utf-8', function(err, data) {
+        /* Throw Error to Avoid Malformed Content */
+        if (err) throw err;
+
+        /* Load HTML data */
+        let $ = cheerio.load(data);
+
+        /* 
+            Constant Selectors
+        */
+
+        const TAB_TITLE = 'title'
+        const TITLE = 'h1.u-text'
+        const DESCRIPTION = 'p.u-text:nth-child(2)'
+        const SCHEDULE_BUTTON = '.u-border-2'
+
+        /* 
+            Content Updates
+        */
+
+        /* Update Tab Title */
+        $(TAB_TITLE).html(event_page_data['tab-title']);
+
+        /* Update Page Title (h1) */
+        $(TITLE).html(event_page_data.title);
+
+        /* Update Description */
+        let events_description = converter.makeHtml(gallery_data['description']); // Create HTML from Markdown
+        events_description = events_description.replace('<p>', ''); // Remove Paragraph Tags
+        events_description = events_description.replace('</p>', '');
+        $(DESCRIPTION).html(events_description);
+
+        /* Update Schedule Button */
+        $(SCHEDULE_BUTTON).html(event_page_data['schedule-button']);
+        $(SCHEDULE_BUTTON).attr('herf', 'Schedule-Event.html')
+
+        /* 
+            Update Repeated Content
+        */
+
+        /* 
+            Write Out Content
+        */
+       /* Write out Modified HTML */
+       fs.writeFile('public/Events.html', $.html(), function (err) {
+        /* Throw Error to Avoid Malformed Content */
+        if (err) throw err;
+
+        /* Log Success Message */
+        console.log(`Data replaced for Events.html`);
+    });
     })
 }
 

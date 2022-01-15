@@ -73,6 +73,14 @@ collections:
           - {label: "Tab Title", name: tab-title, widget: string}
           - {label: "Title", name: title, widget: string}
           - {label: "Description", name: description, widget: markdown}
+      - label: "Events List"
+        name: "events-page"
+        file: "content/events-page.json"
+        fields:
+          - {label: "Tab Title", name: tab-title, widget: string}
+          - {label: "Title", name: title, widget: string}
+          - {label: "Description", name: description, widget: markdown}
+          - {label: "Schedule Button Text", name: schedule-button, widget: string}
   # Content for Learn Page
   - name: learning-resource
     label: "Learning Resources"
@@ -96,3 +104,14 @@ collections:
       - {label: "Priority (Lower Number Displays first)", name: priority, widget: number, value_type: int}
       - {label: "Alternative Text for Image (Displays if Image Doesn't Load)", name: alt-text, widget: string}
       - {label: "Display Image", name: display-image, widget: image}
+  - name: events-list
+    lable: "Events List"
+    folder: "content/events-list"
+    create: true
+    extension: json
+    fields:
+      - {label: "Alternative Text for Image (Displays if Image Doesn't Load)", name: alt-text, widget: string}
+      - {label: "Display Image", name: display-image, widget: image}
+      - {label: "Event Title", name: event-title, widget: string}
+      - {label: "Date", name: event-date, widget: datetime}
+      - {label: "Description", name: event-description, widget: markdown}
