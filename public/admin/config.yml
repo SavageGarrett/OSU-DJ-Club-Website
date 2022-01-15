@@ -3,7 +3,8 @@ backend:
   branch: master # Branch to update (optional; defaults to master)
 
 # This line should *not* be indented
-publish_mode: editorial_workflow
+# This is Annoying During Dev, See if joe wants this
+# publish_mode: editorial_workflow
 
 # Define where public images will be stored
 media_folder: "public/images/uploads"
@@ -72,15 +73,6 @@ collections:
           - {label: "Tab Title", name: tab-title, widget: string}
           - {label: "Title", name: title, widget: string}
           - {label: "Description", name: description, widget: markdown}
-  # Content for Gallery
-  - name: gallery
-    label: "Gallery Images"
-    folder: "content/gallery"
-    create: true
-    extension: json
-    fields:
-      - {label: "Alternative Text for Image (Displays if Image Doesn't Load)", name: alt-text, widget: string}
-      - {label: "Display Image", name: display-image, widget: image}
   # Content for Learn Page
   - name: learning-resource
     label: "Learning Resources"
