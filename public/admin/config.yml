@@ -75,6 +75,13 @@ collections:
           - {label: "Title", name: title, widget: string}
           - {label: "Description", name: description, widget: markdown}
           - {label: "Schedule Button Text", name: schedule-button, widget: string}
+      - label: "From Our DJs"
+        name: "from-our-djs"
+        file: "content/from-our-djs.json"
+        fields:
+          - {label: "Tab Title", name: tab-title, widget: string}
+          - {label: "Title", name: title, widget: string}
+          - {label: "Description", name: description, widget: markdown}
   # Content for Learn Page
   - name: learning-resource
     label: "Learning Resources"
@@ -109,3 +116,12 @@ collections:
       - {label: "Event Title", name: event-title, widget: string}
       - {label: "Date", name: event-date, widget: datetime}
       - {label: "Description", name: event-description, widget: markdown}
+  - name: from-our-djs-entry
+    label: "From Our DJs Embedded Music"
+    folder: "content/from-our-djs-entry"
+    create: true
+    extension: json
+    fields:
+      - {label: "Name", name: name, widget: string}
+      - {label: "Embedded Html Code (Change Height Property to 320)", name: embed-code, widget: text}
+      - {label: "Priority (Lower Number Displays First)", name: priority, widget: number, value_type: int}

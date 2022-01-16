@@ -66,13 +66,18 @@ function compareLT(a, b)
 }
 
 /* 
-    Compare a to b and find greater date
+    Compare a to b and find highest date
 */
 function compareGTDate(a, b)
 {
     let ret = 0;
 
+    if (a.hasOwnProperty('event-date') && b.hasOwnProperty('event-date'))
+    {
+        ret = (new Date(a["event-date"]) > new Date(b["event-date"])) ? -1 : 1;
+    }
+
     return ret;
 }
 
-module.exports = parseCollection;
+module.exports = {parseCollection, parseCollectionDate};

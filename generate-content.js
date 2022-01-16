@@ -6,7 +6,9 @@ const {
 const fs = require('fs');
 const showdown = require('showdown');
 let converter = new showdown.Converter();
-const parseCollection = require('./collection2array.js');
+const {parseCollection, parseCollectionDate} = require('./collection2array.js');
+const { brotliDecompressSync } = require('zlib');
+
 
 /* Load Config Files */
 const home_page_data = require('./content/home-page.json');
@@ -15,17 +17,25 @@ const schedule_event_data = require('./content/schedule-event-page.json');
 const join_club_data = require('./content/join-dj-club.json');
 const gallery_data = require('./content/photo-gallery.json');
 const event_page_data = require('./content/events-page.json');
+const from_our_djs_data = require('./content/from-our-djs.json');
+
+/* Repeated Content Used on more than One Page */
+const event_list_data = parseCollectionDate('./content/events-list');
+
+/* Month Map */
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 
 /* Call Page Modifiers */
 gen_home('Home.html');
 gen_home('index.html');
-gen_tags();
+/* gen_tags(); */
 gen_learn();
 gen_schedule_an_event();
 gen_join_dj_club();
 gen_photos();
 gen_events_page();
+gen_from_our_djs();
 
 /**
  * Add google tags script to all .html files in public directory
@@ -117,6 +127,7 @@ function gen_home(html_file)
         const SOCIAL_1 = 'a.u-active-none:nth-child(1)'
         const SOCIAL_2 = 'a.u-active-none:nth-child(2)'
         const SOCIAL_3 = 'a.u-active-none:nth-child(3)'
+        const EVENT_CONTAINER = '.u-list'
 
         /* 
             Page Modifications
@@ -129,15 +140,9 @@ function gen_home(html_file)
         $(SUBTITLE).html(home_page_data.subtitle);
 
         /* Modify About Section */
-        let community_html_text = converter.makeHtml(home_page_data['for-the-community']); // Create HTML from Markdown
-        community_html_text = community_html_text.replace('<p>', ''); // Remove Paragraph Tags
-        community_html_text = community_html_text.replace('</p>', '');
-        $(FOR_THE_COMMUNITY).html(community_html_text);
+        inject_markdown($, FOR_THE_COMMUNITY, home_page_data['for-the-community'])
 
-        let for_djs_html_text = converter.makeHtml(home_page_data['for-djs']); // Create HTML from Markdown
-        for_djs_html_text = for_djs_html_text.replace('<p>', ''); // Remove Paragraph Tags
-        for_djs_html_text = for_djs_html_text.replace('</p>', '');
-        $(FOR_DJS).html(for_djs_html_text);
+        inject_markdown($, FOR_DJS, home_page_data['for-djs']);
 
 
 
@@ -151,28 +156,43 @@ function gen_home(html_file)
         $(FEATURED_IMAGE_3).attr('data-src', "." + home_page_data['right-image'].replace('/public', ''));
         $(FEATURED_IMAGE_3).attr('src', "." + home_page_data['right-image'].replace('/public', ''));
 
-        /* TODO: Featured Events - Load 3 Most Recent */
+        /* Featured Events */
+
+        /* Loop over Events or 3 Events Entries */
+        let i = 0;
+        let max_entries = (event_list_data.length < 3) ? event_list_data.length : 3;
+        let insertion_html = '<div class="u-repeater u-repeater-1">';
+        for (let entry of event_list_data) {
+            /* Skip Insertion after Max Reached */
+            if (i < max_entries)
+            {
+                /* Insert Entry Element */
+                insertion_html += gen_one_event_home(entry["alt-text"], entry["display-image"],
+                                    entry["event-title"], entry["event-date"], 
+                                    entry["event-description"], i + 1)
+            }
+            else // Avoid Unneccessary Loop Executions
+            {
+                break;
+            }
+            
+            i++
+        }
+        insertion_html += '</div>'; // Close Div
+
+        $(EVENT_CONTAINER).html(insertion_html);
 
 
         /* Modify Learn to DJ Section Long Text */
-        let learn_html = converter.makeHtml(home_page_data['learn-to-dj']); // Create HTML from Markdown
-        learn_html = learn_html.replace('<p>', ''); // Remove Paragraph Tags
-        learn_html = learn_html.replace('</p>', '');
-        $(LEARN_TO_DJ).html(learn_html);
+        inject_markdown($, LEARN_TO_DJ, home_page_data['learn-to-dj']);
 
         /* Modify Members Section Long Text */
-        let members_text = converter.makeHtml(home_page_data['members-section-text']); // Create HTML from Markdown
-        members_text = members_text.replace('<p>', ''); // Remove Paragraph Tags
-        members_text = members_text.replace('</p>', '');
-        $(MEMBER_RESOURCES).html(members_text);
+        inject_markdown($, MEMBER_RESOURCES, home_page_data['members-section-text']);
 
         $(MEMBER_BUTTON).html(home_page_data['members-section-button']); // Replace Button Text
 
         /* Modify From our DJs Long Text */
-        let from_our_djs_text = converter.makeHtml(home_page_data['from-our-djs']); // Create HTML from Markdown
-        from_our_djs_text = from_our_djs_text.replace('<p>', ''); // Remove Paragraph Tags
-        from_our_djs_text = from_our_djs_text.replace('</p>', '');
-        $(FROM_OUR_DJS).html(from_our_djs_text);
+        inject_markdown($, FROM_OUR_DJS, home_page_data['from-our-djs'])
 
 
         /* Modify Social Links */
@@ -201,6 +221,38 @@ function gen_home(html_file)
     });
 }
 
+/* Generate one Event for Home Page */
+function gen_one_event_home(alt_text, image, title, date_string, description, id)
+{
+    /* Create Date Object*/
+    let event_date = new Date(date_string);
+
+    /* Get Hour, Minutes, and AM/PM */
+    let hour = (event_date.getHours() > 12) ? {hour: event_date.getHours() % 12, ampm: "PM"} : {hour: event_date.getHours(), ampm: "AM"}
+    hour["minutes"] = (event_date.getMinutes() == "0") ? "00": event_date.getMinutes();
+    
+    /* Format Date */
+    let display_date = `${months[event_date.getMonth()]} ${event_date.getDate()}, ${event_date.getFullYear()} ${hour.hour}:${hour.minutes} ${hour.ampm}`
+
+    /* Parse Description */
+    description = description.replace('\n', '<br/>')
+    let event_description = converter.makeHtml(description); // Create HTML from Markdown
+    event_description = event_description.replace('<p>', ''); // Remove Paragraph Tags
+    event_description = event_description.replace('</p>', '');
+
+    return `
+    <div class="u-container-style u-list-item u-repeater-item">
+        <div class="u-container-layout u-similar-container u-container-layout-${id}">
+        <img alt="${alt_text}" class="u-image u-image-default u-preserve-proportions u-image-${id} ls-is-cached lazyloaded" data-image-width="474" data-image-height="474" data-src="${image.replace('/public', '.')}" src="${image.replace('/public', '.')}">
+        <h2 class="u-text u-text-2">${title}</h2>
+        <h5 class="u-custom-font u-font-pt-sans u-text u-text-3">${display_date}</h5>
+        <p class="u-text u-text-4">${event_description}</p>
+        </div>
+    </div>
+    `
+}
+
+/* Generate Schedule an Event Page */
 function gen_schedule_an_event()
 {
     fs.readFile('./public/Schedule-Event.html', 'utf-8', function (err, data) {
@@ -228,10 +280,7 @@ function gen_schedule_an_event()
         $(TITLE).html(schedule_event_data.title);
 
         /* Update Page Description */
-        let schedule_description = converter.makeHtml(schedule_event_data['description']); // Create HTML from Markdown
-        schedule_description = schedule_description.replace('<p>', ''); // Remove Paragraph Tags
-        schedule_description = schedule_description.replace('</p>', '');
-        $(DESCRIPTION).html(schedule_description);
+        inject_markdown($, DESCRIPTION, schedule_event_data['description']);
             
         /* 
             Write Out Modified Html
@@ -247,6 +296,7 @@ function gen_schedule_an_event()
     })
 }
 
+/* Generate Join DJ Club Page */
 function gen_join_dj_club()
 {
     fs.readFile('./public/Join-DJ-Club.html', 'utf-8', function (err, data) {
@@ -275,10 +325,7 @@ function gen_join_dj_club()
         $(TITLE).html(join_club_data.title);
 
         /* Update Page Description */
-        let join_club_description = converter.makeHtml(join_club_data['description']); // Create HTML from Markdown
-        join_club_description = join_club_description.replace('<p>', ''); // Remove Paragraph Tags
-        join_club_description = join_club_description.replace('</p>', '');
-        $(DESCRIPTION).html(join_club_description);
+        inject_markdown($, DESCRIPTION, join_club_data['description']);
 
         /* Update GroupMe Link */
         $(GROUPME_IMAGE).html(join_club_data["groupme-link"])
@@ -297,6 +344,7 @@ function gen_join_dj_club()
     })
 }
 
+/* Generate Photos Page */
 function gen_photos()
 {
     fs.readFile('public/Photos.html', 'utf-8', function (err, data) {
@@ -326,10 +374,7 @@ function gen_photos()
         $(TITLE).html(gallery_data.title)
 
         /* Update Description */
-        let photos_description = converter.makeHtml(gallery_data['description']); // Create HTML from Markdown
-        photos_description = photos_description.replace('<p>', ''); // Remove Paragraph Tags
-        photos_description = photos_description.replace('</p>', '');
-        $(DESCRIPTION).html(photos_description);
+        inject_markdown($, DESCRIPTION, gallery_data['description']);
 
         /* 
             Update Repeated Content
@@ -373,6 +418,7 @@ function gen_photos()
     })
 }
 
+/* Create a Single Photo Entry */
 function gen_single_photo(alt_text, display_image, id)
 {
     return `
@@ -405,6 +451,7 @@ function gen_events_page()
         const TITLE = 'h1.u-text'
         const DESCRIPTION = 'p.u-text:nth-child(2)'
         const SCHEDULE_BUTTON = '.u-border-2'
+        const EVENT_CONTAINER = '.u-expanded-width'
 
         /* 
             Content Updates
@@ -417,18 +464,39 @@ function gen_events_page()
         $(TITLE).html(event_page_data.title);
 
         /* Update Description */
-        let events_description = converter.makeHtml(gallery_data['description']); // Create HTML from Markdown
-        events_description = events_description.replace('<p>', ''); // Remove Paragraph Tags
-        events_description = events_description.replace('</p>', '');
-        $(DESCRIPTION).html(events_description);
+        inject_markdown($, DESCRIPTION, gallery_data['description']);
 
         /* Update Schedule Button */
         $(SCHEDULE_BUTTON).html(event_page_data['schedule-button']);
-        $(SCHEDULE_BUTTON).attr('herf', 'Schedule-Event.html')
+        $(SCHEDULE_BUTTON).attr('href', 'Schedule-Event.html')
 
         /* 
             Update Repeated Content
         */
+
+        /* Loop over Events or 10 Events Entries */
+        let i = 0;
+        let max_entries = (event_list_data.length < 10) ? event_list_data.length : 10;
+        let insertion_html = '<div class="u-repeater u-repeater-1">';
+        for (let entry of event_list_data) {
+            /* Skip Insertion after Max Reached */
+            if (i < max_entries)
+            {
+                /* Insert Entry Element */
+                insertion_html += gen_one_event(entry["alt-text"], entry["display-image"],
+                                    entry["event-title"], entry["event-date"], 
+                                    entry["event-description"], i + 1)
+            }
+            else // Avoid Unneccessary Loop Executions
+            {
+                break;
+            }
+            
+            i++
+        }
+        insertion_html += '</div>' // Close Div
+
+        $(EVENT_CONTAINER).html(insertion_html)
 
         /* 
             Write Out Content
@@ -442,6 +510,37 @@ function gen_events_page()
         console.log(`Data replaced for Events.html`);
     });
     })
+}
+
+/* Create a Single Event Entry */
+function gen_one_event(alt_text, image, title, date_string, description, id)
+{
+    /* Create Date Object*/
+    let event_date = new Date(date_string);
+
+    /* Get Hour, Minutes, and AM/PM */
+    let hour = (event_date.getHours() > 12) ? {hour: event_date.getHours() % 12, ampm: "PM"} : {hour: event_date.getHours(), ampm: "AM"}
+    hour["minutes"] = (event_date.getMinutes() == "0") ? "00": event_date.getMinutes();
+    
+    /* Format Date */
+    let display_date = `${months[event_date.getMonth()]} ${event_date.getDate()}, ${event_date.getFullYear()} ${hour.hour}:${hour.minutes} ${hour.ampm}`
+
+    /* Parse Description */
+    description = description.replace('\n', '<br/>');
+    let event_description = converter.makeHtml(description); // Create HTML from Markdown
+    event_description = event_description.replace('<p>', ''); // Remove Paragraph Tags
+    event_description = event_description.replace('</p>', '');
+
+    return `
+        <div class="u-container-style u-list-item u-repeater-item">
+            <div class="u-container-layout u-similar-container u-container-layout-${id}">
+            <img alt="${alt_text}" class="u-image u-image-default u-preserve-proportions u-image-${id} ls-is-cached lazyloaded" data-image-width="474" data-image-height="474" data-src="${image.replace('/public', '.')}" src="${image.replace('/public', '.')}">
+            <h2 class="u-text u-text-white u-text-3">${title}</h2>
+            <h5 class="u-custom-font u-font-pt-sans u-text u-text-white u-text-4">${display_date}</h5>
+            <p class="u-text u-text-white u-text-5">${event_description}</p>
+            </div>
+        </div>
+    `
 }
 
 /* Generate Learn-to-DJ page */
@@ -475,10 +574,7 @@ function gen_learn()
         $(TITLE).html(learn_data.title);
 
         /* Update Description */
-        let learning_description = converter.makeHtml(learn_data['description']); // Create HTML from Markdown
-        learning_description = learning_description.replace('<p>', ''); // Remove Paragraph Tags
-        learning_description = learning_description.replace('</p>', '');
-        $(DESCRIPTION).html(learning_description);
+        inject_markdown($, DESCRIPTION, learn_data.description);
 
 
         /* 
@@ -523,9 +619,13 @@ function gen_learn()
     });
 }
 
+/* Generate One Learning Entry */
 function gen_learn_entry(alt_text, display_image, title, description_md, link_text, link)
 {
+    description_md = description_md.replace('\n', '<br/>')
     let description_html = converter.makeHtml(description_md);
+    description_html = description_html.replace('<p>', '');
+    description_html = description_html.replace('</p>', '');
     return `
     <div class="u-container-style u-list-item u-repeater-item">
     <div class="u-container-layout u-similar-container u-container-layout-3">
@@ -536,4 +636,61 @@ function gen_learn_entry(alt_text, display_image, title, description_md, link_te
     </div>
     </div>
     `
+}
+
+/* Generate from Our DJs Page */
+function gen_from_our_djs()
+{
+    fs.readFile('./public/From-Our-DJs.html', 'utf-8', function (err, data) {
+        /* Throw Error to Avoid Malformed Content */
+        if (err) throw err;
+
+        /* Load HTML data */
+        let $ = cheerio.load(data);
+
+        /* 
+            Constant Selectors
+        */
+        const TAB_TITLE = 'title'
+        const TITLE = 'h1.u-align-center'
+        const DESCRIPTION = 'p.u-align-center'
+        const MUSIC_CONTAINER = '.u-layout'
+
+        /* 
+            Content Modifications
+        */
+        
+        /* Replace Tab Title */
+        $(TAB_TITLE).html(from_our_djs_data['tab-title']);
+
+        /* Replace Page Title (h1) */
+        $(TITLE).html(from_our_djs_data.title);
+
+        /* Replace Description */
+        inject_markdown($, DESCRIPTION, from_our_djs_data.description);
+
+        /* 
+            Repeated Content
+        */
+
+        /* Write out Modified HTML */
+        fs.writeFile('./public/From-Our-DJs.html', $.html(), function (err) {
+            /* Throw Error to Avoid Malformed Content */
+            if (err) throw err;
+
+            /* Log Success Message */
+            console.log(`Data replaced for From-Our-DJs.html`);
+        });
+    })
+}
+
+/* Inject Markdown into Page */
+function inject_markdown($, selector, markdown)
+{
+    /* Replace Icky New Lines with Link Breaks */
+    markdown = markdown.replace('\n', '<br/>');
+    let parsed_html = converter.makeHtml(markdown); // Create HTML from Markdown
+    parsed_html = parsed_html.replace('<p>', ''); // Remove Paragraph Tags
+    parsed_html = parsed_html.replace('</p>', '');
+    $(selector).html(parsed_html);
 }
