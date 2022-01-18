@@ -723,7 +723,7 @@ function gen_one_music_embed(embed_code, id)
 /* Generate Members Only Page */
 function gen_members()
 {
-    fs.readFile('../members_template.html', 'utf-8', function (err, data) {
+    fs.readFile('./members_template.html', 'utf-8', function (err, data) {
         /* Throw Error to Avoid Malformed Content */
         if (err) throw err;
 
