@@ -30,7 +30,6 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
 /* Call Page Modifiers */
 gen_home('Home.html');
 gen_home('index.html');
-/* gen_tags(); */
 gen_learn();
 gen_schedule_an_event();
 gen_join_dj_club();
@@ -39,70 +38,6 @@ gen_events_page();
 gen_from_our_djs();
 gen_members();
 
-/**
- * Add google tags script to all .html files in public directory
- */
-function gen_tags()
-{
-    let gtags = `
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LNT0B8EBGF"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    
-      gtag('config', 'G-LNT0B8EBGF');
-    </script>
-    `
-
-    /* Gather Public Files */
-    let public_files = fs.readdirSync('./public/');
-
-    /* Filter out Non-HTML Documents */
-    public_files = public_files.filter(function (word) {
-        return word.includes('.html')
-    });
-
-    /* Loop over all HTML Files */
-    for (let file of public_files) {
-        fs.readFile(`public/${file}`, 'utf-8', function (err, data) {
-            /* Throw Error to Avoid Malformed Content */
-            if (err) throw err;
-
-            /* Load HTML Data */
-            let $ = cheerio.load(data);
-
-            /* Declare Head Tag */
-            const HEAD = 'head';
-
-            /* Fetch Head HTML */
-            let head_html = $(HEAD).html();
-
-            /* Check that Google Tags is Already Included */
-            if (!head_html.includes('<!-- Global site tag (gtag.js) - Google Analytics -->')) {
-                /* Add Gtags to Head HTML */
-                head_html += gtags;
-
-                /* Replace head with updated gtag included */
-                $(HEAD).html(head_html);
-
-                /* Write out Modified HTML */
-                fs.writeFile(`public/${file}`, $.html(), function (err) {
-                    /* Throw Error to Avoid Malformed Content */
-                    if (err) throw err;
-
-                    /* Log Success Message */
-                    console.log(`GTags Added for ${file}`);
-                });
-            }
-            else
-            {
-                console.log(`GTags Already Exist for ${file}`);
-            }
-        });
-    }
-}
 
 /* Generate Home or Index Page */
 function gen_home(html_file)
@@ -695,6 +630,8 @@ function gen_from_our_djs()
             i++
         }
 
+        $(MUSIC_CONTAINER).html(insertion_html);
+
         /* Write out Modified HTML */
         fs.writeFile('./public/From-Our-DJs.html', $.html(), function (err) {
             /* Throw Error to Avoid Malformed Content */
@@ -755,6 +692,27 @@ function gen_members()
             Update Repeated Content
         */
 
+        /* Fetch Learning Entry Data */
+        const music_source_data = parseCollection('./content/music-source');
+
+        /* Loop over Learning Entries */
+
+        let i = 0;
+        let insertion_html = '';
+        for (let entry of music_source_data) {
+            /* Insert Repeater Element (3 elements / row) */
+            if (i % 3 == 0) insertion_html += `<div class="u-repeater u-repeater-1">`
+
+            /* Insert Entry Element */
+            insertion_html += gen_one_music_source(entry["name"], entry["embed-code"], entry["link"], i + 1);
+
+            /* Close Div if End of Line or Last Element */
+            if (i % 3 == 2 || i == music_source_data.length) insertion_html += `</div>`
+            i++
+        }
+
+        $(MUSIC_SOURCE_CONTAINER).html(insertion_html);
+
         /* Write out Modified HTML */
         fs.writeFile('./public/Members.html', $.html(), function (err) {
             /* Throw Error to Avoid Malformed Content */
@@ -767,10 +725,17 @@ function gen_members()
 }
 
 /* Generate One Members only Music Source */
-function gen_one_music_source()
+function gen_one_music_source(description, image, link, id)
 {
     return `
-    
+    <div class="u-align-center u-container-style u-list-item u-repeater-item">
+        <div class="u-container-layout u-similar-container u-container-layout-${id}">
+        <div alt="" class="u-image u-image-circle u-image-${id} lazyloaded" src="" data-image-width="400" data-image-height="400" data-href="${link}" data-target="_blank" data-bg="url(&quot;${image.replace('/public/', '')}&quot;)" style="background-image: url(&quot;${image.replace('/public/', '')}&quot;);"></div>
+        <h2 class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xs u-text u-text-palette-2-base u-text-3">
+            <a class="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-hover-palette-1-base u-text-palette-2-base u-btn-${id}" href="${link}" target="_blank">${description}</a>
+        </h2>
+        </div>
+    </div>
     `
 }
 
