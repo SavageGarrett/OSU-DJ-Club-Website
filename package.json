@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node generate-content.js && node pagecrypt.mjs"
+    "build": "node generate-content.js && node pagecrypt.mjs && node update_login_form.js"
   },
   "repository": {
     "type": "git",
