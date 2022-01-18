@@ -82,6 +82,13 @@ collections:
           - {label: "Tab Title", name: tab-title, widget: string}
           - {label: "Title", name: title, widget: string}
           - {label: "Description", name: description, widget: markdown}
+      - label: "Member Resources"
+        name: "member-resources"
+        file: "content/member-resources.json"
+        fields:
+          - {label: "Tab Title", name: tab-title, widget: string}
+          - {label: "Title", name: title, widget: string}
+          - {label: "Description", name: description, widget: markdown}
   # Content for Learn Page
   - name: learning-resource
     label: "Learning Resources"
@@ -124,4 +131,14 @@ collections:
     fields:
       - {label: "Name", name: name, widget: string}
       - {label: "Embedded Html Code (Change Height Property to 320)", name: embed-code, widget: text}
+      - {label: "Priority (Lower Number Displays First)", name: priority, widget: number, value_type: int}
+  - name: music-source
+    label: "Members Only Resource"
+    folder: "content/music-source"
+    create: true
+    extension: json
+    fields:
+      - {label: "Resource Description", name: name, widget: string}
+      - {label: "Display Image", name: embed-code, widget: image}
+      - {label: "Resource Link", name: link, widget: string}
       - {label: "Priority (Lower Number Displays First)", name: priority, widget: number, value_type: int}

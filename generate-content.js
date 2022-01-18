@@ -18,6 +18,7 @@ const join_club_data = require('./content/join-dj-club.json');
 const gallery_data = require('./content/photo-gallery.json');
 const event_page_data = require('./content/events-page.json');
 const from_our_djs_data = require('./content/from-our-djs.json');
+const member_resources_data = require('./content/member-resources.json');
 
 /* Repeated Content Used on more than One Page */
 const event_list_data = parseCollectionDate('./content/events-list');
@@ -36,6 +37,7 @@ gen_join_dj_club();
 gen_photos();
 gen_events_page();
 gen_from_our_djs();
+gen_members();
 
 /**
  * Add google tags script to all .html files in public directory
@@ -673,6 +675,26 @@ function gen_from_our_djs()
             Repeated Content
         */
 
+        /* Fetch Learning Entry Data */
+        const embed_data = parseCollection('./content/from-our-djs-entry');
+
+        /* Loop over Learning Entries */
+
+        let i = 0;
+        let insertion_html = '';
+        for (let entry of embed_data) {
+            /* Insert Repeater Element (3 elements / row) */
+            if (i % 3 == 0 && i > 0) insertion_html += `<div class="u-layout-row">`
+            else if (i % 3 == 0) insertion_html += `<div class="u-layout-row">`
+
+            /* Insert Entry Element */
+            insertion_html += gen_one_music_embed(entry["embed-code"], i + 1);
+
+            /* Close Div if End of Line or Last Element */
+            if (i % 3 == 2 || i == embed_data.length) insertion_html += `</div>`
+            i++
+        }
+
         /* Write out Modified HTML */
         fs.writeFile('./public/From-Our-DJs.html', $.html(), function (err) {
             /* Throw Error to Avoid Malformed Content */
@@ -682,6 +704,74 @@ function gen_from_our_djs()
             console.log(`Data replaced for From-Our-DJs.html`);
         });
     })
+}
+
+/* Generate One Embedded Music Entry */
+function gen_one_music_embed(embed_code, id)
+{
+    return `
+    <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-${id}">
+        <div class="u-container-layout u-container-layout-${id}">
+        <div class="u-clearfix u-custom-html u-custom-html-${id}">
+            ${embed_code}
+        </div>
+        </div>
+    </div>
+    `
+}
+
+/* Generate Members Only Page */
+function gen_members()
+{
+    fs.readFile('../members_template.html', 'utf-8', function (err, data) {
+        /* Throw Error to Avoid Malformed Content */
+        if (err) throw err;
+
+        /* Load HTML data */
+        let $ = cheerio.load(data);
+
+        /* 
+            Constant Selectors
+        */
+        const TAB_TITLE = 'title'
+        const TITLE = 'h1.u-text'
+        const DESCRIPTION = 'p.u-text:nth-child(2)'
+        const MUSIC_SOURCE_CONTAINER = '.u-expanded-width'
+
+        /* 
+            Update Content
+        */
+        
+        /* Update Tab Title */
+        $(TAB_TITLE).html(member_resources_data["tab-title"]);
+
+        /* Update Page Title (h1) */
+        $(TITLE).html(member_resources_data["title"]);
+
+        /* Update Description */
+        inject_markdown($, DESCRIPTION, member_resources_data["description"]);
+
+        /* 
+            Update Repeated Content
+        */
+
+        /* Write out Modified HTML */
+        fs.writeFile('./public/Members.html', $.html(), function (err) {
+            /* Throw Error to Avoid Malformed Content */
+            if (err) throw err;
+
+            /* Log Success Message */
+            console.log(`Data replaced for Members.html`);
+        });
+    })
+}
+
+/* Generate One Members only Music Source */
+function gen_one_music_source()
+{
+    return `
+    
+    `
 }
 
 /* Inject Markdown into Page */
