@@ -1,4 +1,5 @@
 const fs = require('fs');
+const cheerio = require('cheerio');
 const password_page_data = require('./content/member-resources.json');
 
 gen_login();
