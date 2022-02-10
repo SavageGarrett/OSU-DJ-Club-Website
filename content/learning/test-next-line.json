@@ -1,9 +1,9 @@
 {
-    "priority": "31",
-    "alt-text": "Test Next Line",
-    "display-image": "/public/images/uploads/deck-3.jpeg",
-    "title": "Test Next Line",
-    "description": "<!--StartFragment-->\n\nSample text. Click to select the text box. Click again or double click to start editing the text.\n\n<!--EndFragment-->",
-    "link-text": "go to document",
-    "link": "https://www.djclubosu.com/learn-to-dj"
-  }
+  "priority": 12,
+  "alt-text": "Test Next Line",
+  "display-image": "/public/images/uploads/deck-3.jpeg",
+  "title": "Introduction - Music: Where to Get and How to Organize Files",
+  "description": "<!--StartFragment-->\n\nUsing DJ Pools to get music, organizing your files properly, and ensuring good sound quality.\n\n<!--EndFragment-->",
+  "link-text": "go to document",
+  "link": "https://www.djclubosu.com/learn-to-dj"
+}
