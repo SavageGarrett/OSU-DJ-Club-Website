@@ -1,9 +1,9 @@
 {
-  "priority": "30",
+  "priority": 13,
   "alt-text": "youtube logo",
-  "display-image": "/public/images/uploads/8gzcr6rpgstvzfa2qrt4v6.jpg",
-  "title": "Youtube Playlist",
-  "description": "<!--StartFragment-->\n\nSample text. Click to select the text box. Click again or double click to start editing the text.\n\n<!--EndFragment-->",
+  "display-image": "/public/images/uploads/camelot.png",
+  "title": "Introduction - Phrasing and Keys",
+  "description": "<!--StartFragment-->\n\nLearn about phrases of music and mixing in key.\n\n<!--EndFragment-->",
   "link-text": "go to playlist",
-  "link": "https://www.djclubosu.com/learn-to-dj"
+  "link": "https://drive.google.com/drive/u/1/folders/1VWhlqYfeQf4TNZNK0rFNW1TDZKAXBVT9"
 }
