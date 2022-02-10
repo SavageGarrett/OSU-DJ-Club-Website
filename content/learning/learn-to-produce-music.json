@@ -1,7 +1,7 @@
 {
-  "priority": "20",
-  "alt-text": "ableton logo",
-  "display-image": "/public/images/uploads/ableton-logo.wine.png",
+  "priority": 11,
+  "alt-text": "Serato and Rekordbox",
+  "display-image": "/public/images/uploads/rekordbox-vs-serato-dj.jpg",
   "title": "Introduction - Your choices in DJ Software",
   "description": "<!--StartFragment-->\n\nSerato DJ Pro and Pioneer Rekordbox are the two industry leaders in DJ Software. Learn the difference and which one is right for you.\n\n<!--EndFragment-->",
   "link-text": "go to video",
