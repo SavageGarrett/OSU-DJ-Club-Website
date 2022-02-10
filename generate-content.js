@@ -178,14 +178,14 @@ function gen_one_event_home(alt_text, image, title, date_string, description, id
     event_description = event_description.replace('</p>', '');
 
     return `
-    <div class="u-container-style u-list-item u-repeater-item">
-        <div class="u-container-layout u-similar-container u-container-layout-${id}">
-        <img alt="${alt_text}" class="u-image u-image-default u-preserve-proportions u-image-${id} ls-is-cached lazyloaded" data-image-width="474" data-image-height="474" data-src="${image.replace('/public', '.')}" src="${image.replace('/public', '.')}">
-        <h2 class="u-text u-text-2">${title}</h2>
-        <h5 class="u-custom-font u-font-pt-sans u-text u-text-3">${display_date}</h5>
-        <p class="u-text u-text-4">${event_description}</p>
+        <div class="u-container-style u-list-item u-repeater-item">
+            <div class="u-container-layout u-similar-container u-container-layout-${id}">
+            <img alt="${alt_text}" class="u-image u-image-default u-preserve-proportions u-image-${id} ls-is-cached lazyloaded" data-image-width="474" data-image-height="474" data-src="${image.replace('/public', '.')}" src="${image.replace('/public', '.')}">
+            <h2 class="u-text u-text-2">${title}</h2>
+            <h5 class="u-custom-font u-font-pt-sans u-text u-text-3">${display_date}</h5>
+            <p class="u-text u-text-4">${event_description}</p>
+            </div>
         </div>
-    </div>
     `
 }
 
@@ -673,7 +673,7 @@ function gen_members()
         const TAB_TITLE = 'title'
         const TITLE = 'h1.u-text'
         const DESCRIPTION = 'p.u-text:nth-child(2)'
-        const MUSIC_SOURCE_CONTAINER = '.u-expanded-width'
+        const MUSIC_SOURCE_CONTAINER = 'div.u-expanded-width:nth-child(4)'
 
         /* 
             Update Content

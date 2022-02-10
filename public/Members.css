@@ -15,9 +15,15 @@
   margin: 14px auto 0;
 }
 
+.u-section-1 .u-custom-html-1 {
+  margin-bottom: 0;
+  margin-top: 26px;
+  min-height: 161px;
+}
+
 .u-section-1 .u-list-1 {
   grid-template-rows: auto;
-  margin-top: 46px;
+  margin-top: 14px;
   margin-bottom: 60px;
 }
 
@@ -138,6 +144,10 @@
 }
 
 @media (max-width: 1199px) {
+  .u-section-1 .u-custom-html-1 {
+    height: auto;
+  }
+
   .u-section-1 .u-repeater-1 {
     grid-template-columns: calc(33.3333% - 6.66667px) calc(33.3333% - 6.66667px) calc(33.3333% - 6.66667px);
     min-height: 191px;
