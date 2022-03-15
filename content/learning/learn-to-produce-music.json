@@ -1,9 +1,9 @@
 {
-  "priority": "20",
-  "alt-text": "ableton logo",
-  "display-image": "/public/images/uploads/ableton-logo.wine.png",
-  "title": "Learn to Produce Music",
-  "description": "<!--StartFragment-->\n\nSample text. Click to select the text box. Click again or double click to start editing the text.\n\n<!--EndFragment-->",
+  "priority": 11,
+  "alt-text": "Serato and Rekordbox",
+  "display-image": "/public/images/uploads/rekordbox-vs-serato-dj.jpg",
+  "title": "Introduction - Your choices in DJ Software",
+  "description": "<!--StartFragment-->\n\nSerato DJ Pro and Pioneer Rekordbox are the two industry leaders in DJ Software. Learn the difference and which one is right for you.\n\n<!--EndFragment-->",
   "link-text": "go to video",
-  "link": "https://www.djclubosu.com/learn-to-dj"
+  "link": "https://www.youtube.com/watch?v=9GdzcZwcDs8"
 }
